@@ -70,6 +70,7 @@ export interface ChoixTechnologique {
   tiers: string;
   produit: string;
   version: string;
+  justification: string;
 }
 
 export interface DnsNom {
@@ -139,12 +140,12 @@ export interface DatFormValues {
   contact_tech: string;
   date: string;
   description_doc: string;
-  
+
   // Introduction
   objet_document: string;
   documents_reference: DocumentReference[];
   glossaire: GlossaireItem[];
-  
+
   // Spécifications fonctionnelles
   acteurs: Acteur[];
   has_schema: boolean;
@@ -152,7 +153,7 @@ export interface DatFormValues {
   schema_description: string;
   briques_fonctionnelles: BriqueFonctionnelle[];
   echanges_donnees: EchangeDonnees[];
-  
+
   // Spécifications techniques
   composants_physiques: ComposantPhysique[];
   description_architecture: string;
@@ -164,17 +165,17 @@ export interface DatFormValues {
   choix_technologiques: ChoixTechnologique[];
   segmentation_dr: string;
   dns_nom: DnsNom[];
-  
+
   // Cycle de vie
   deploiement: string;
   migration_reprise: string;
   supervision: string;
   sauvegarde_restauration: string;
-  
+
   // Dépendances
   dependances_externes: DependanceExterne[];
   dependance_app_externes: DependanceAppExterne[];
-  
+
   // Planification / Besoins
   vms: VM[];
   conteneurs: Conteneur[];
@@ -226,7 +227,8 @@ export const defaultEchangeDonnees: EchangeDonnees = {
 export const defaultChoixTechnologique: ChoixTechnologique = {
   tiers: '',
   produit: '',
-  version: ''
+  version: '',
+  justification: ''
 };
 
 export const defaultDnsNom: DnsNom = {
@@ -292,12 +294,12 @@ export const defaultDatFormValues: DatFormValues = {
   contact_tech: '',
   date: new Date().toISOString().split('T')[0],
   description_doc: '',
-  
+
   // Introduction
   objet_document: '',
   documents_reference: [],
   glossaire: [],
-  
+
   // Spécifications fonctionnelles
   acteurs: [{ ...defaultActeur }],
   has_schema: false,
@@ -305,7 +307,7 @@ export const defaultDatFormValues: DatFormValues = {
   schema_description: '',
   briques_fonctionnelles: [],
   echanges_donnees: [],
-  
+
   // Spécifications techniques
   composants_physiques: [],
   description_architecture: '',
@@ -317,17 +319,17 @@ export const defaultDatFormValues: DatFormValues = {
   choix_technologiques: [],
   segmentation_dr: 'Non',
   dns_nom: [],
-  
+
   // Cycle de vie
   deploiement: '',
   migration_reprise: '',
   supervision: '',
   sauvegarde_restauration: '',
-  
+
   // Dépendances
   dependances_externes: [],
   dependance_app_externes: [],
-  
+
   // Planification / Besoins
   vms: [{ ...defaultVM }],
   conteneurs: [],

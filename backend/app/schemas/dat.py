@@ -82,6 +82,7 @@ class ChoixTechnologique(BaseModel):
     tiers: str = Field(default="", description="Tiers ou brique métier")
     produit: str = Field(default="", description="Produit/Composant")
     version: str = Field(default="", description="Version")
+    justification: str = Field(default="", description="Justification si hors catalogue recommandé")
 
 
 class DnsNom(BaseModel):

@@ -51,14 +51,7 @@ const STEPS = [
   { id: 9, name: "Validation", icon: CheckCircle, description: "Vérification et génération" },
 ];
 
-// Logo Darwin SVG
-const DarwinLogo = () => (
-  <svg viewBox="0 0 40 40" className="w-10 h-10" fill="none">
-    <rect width="40" height="40" rx="8" fill="#000091" />
-    <path d="M10 12h6c4 0 7 3 7 8s-3 8-7 8h-6V12zm6 12c2.5 0 4-2 4-4s-1.5-4-4-4h-2v8h2z" fill="white" />
-    <circle cx="28" cy="20" r="4" fill="#E1000F" />
-  </svg>
-);
+
 
 export function DatStepper() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -87,6 +80,8 @@ export function DatStepper() {
 
     try {
       const data = methods.getValues();
+
+      // Générer le document (DOCX/PDF/ODT) — aucune donnée n'est sauvegardée sur le serveur
       const blob = await downloadDat(data, format);
       const url = window.URL.createObjectURL(new Blob([blob]));
       const link = document.createElement('a');
@@ -168,7 +163,7 @@ export function DatStepper() {
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-              <DarwinLogo />
+
               <div className="flex flex-col justify-center">
                 <h1 className="text-2xl font-bold text-[#000091] leading-tight">
                   Darwin

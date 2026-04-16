@@ -1,14 +1,13 @@
-import os
 import re
+import tempfile
 from pathlib import Path
 from docxtpl import DocxTemplate
 from datetime import datetime
 from html import unescape
 
-# On définit des constantes pour les chemins (Bonne pratique)
+# Chemin vers les templates
 BASE_DIR = Path(__file__).resolve().parent.parent.parent  # backend/
 TEMPLATE_DIR = BASE_DIR / "app" / "templates"
-OUTPUT_DIR = BASE_DIR / "generated_docs"
 
 
 def strip_html(html_content: str) -> str:
@@ -60,13 +59,11 @@ def clean_data_for_word(data: dict) -> dict:
     
     for key, value in data.items():
         if isinstance(value, str):
-            # Nettoyer les champs HTML connus
             if key in html_fields:
                 cleaned[key] = strip_html(value)
             else:
                 cleaned[key] = value
         elif isinstance(value, list):
-            # Traiter les listes (acteurs, vms, etc.)
             cleaned[key] = []
             for item in value:
                 if isinstance(item, dict):
@@ -82,19 +79,17 @@ def clean_data_for_word(data: dict) -> dict:
 
 
 class DocumentService:
-    def __init__(self):
-        # On s'assure que le dossier de sortie existe
-        os.makedirs(OUTPUT_DIR, exist_ok=True)
-
     def generate_dat(self, data: dict) -> str:
         """
         Génère un DAT à partir d'un dictionnaire de données.
+        Le fichier est créé dans un dossier temporaire (nettoyé automatiquement par l'OS).
+        Aucune donnée n'est persistée sur le serveur.
         
         Args:
             data (dict): Les données validées par Pydantic (.model_dump())
             
         Returns:
-            str: Le chemin absolu du fichier généré
+            str: Le chemin absolu du fichier temporaire généré
         """
         template_path = TEMPLATE_DIR / "dat_template.docx"
         
@@ -117,9 +112,10 @@ class DocumentService:
             safe_title = "document"
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         filename = f"DAT_{safe_title}_{timestamp}.docx"
-        output_path = OUTPUT_DIR / filename
 
-        # 6. Sauvegarde
-        doc.save(output_path)
-        
+        # 6. Sauvegarde dans un fichier temporaire (nettoyé par l'OS)
+        tmp_dir = tempfile.gettempdir()
+        output_path = Path(tmp_dir) / filename
+        doc.save(str(output_path))
+
         return str(output_path)

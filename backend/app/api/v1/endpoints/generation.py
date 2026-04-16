@@ -99,3 +99,4 @@ async def generate_dat(
     except Exception as e:
         print(f"ERREUR GÉNÉRATION : {str(e)}")
         raise HTTPException(status_code=500, detail=str(e))
+
