@@ -89,9 +89,9 @@ def create_dat_template():
         cell.paragraphs[0].runs[0].bold = True
 
     doc.add_paragraph()
-    doc.add_paragraph('{%tr for ref in documents_reference %}')
-    ref_row_para = doc.add_paragraph('{{ ref.emetteur }} | {{ ref.document }} | {{ ref.version }}')
-    doc.add_paragraph('{%tr endfor %}')
+    doc.add_paragraph('{%p for ref in documents_reference %}')
+    doc.add_paragraph('• {{ ref.emetteur }} — {{ ref.document }} ({{ ref.version }})')
+    doc.add_paragraph('{%p endfor %}')
     doc.add_paragraph()
 
     # ===== 3. ACTEURS =====
@@ -107,9 +107,9 @@ def create_dat_template():
         cell.paragraphs[0].runs[0].bold = True
 
     doc.add_paragraph()
-    doc.add_paragraph('{% for acteur in acteurs %}')
+    doc.add_paragraph('{%p for acteur in acteurs %}')
     doc.add_paragraph('• {{ acteur.acteur }} — {{ acteur.role }} ({{ acteur.droits }})')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
     doc.add_paragraph()
 
     # ===== 4. SPÉCIFICATIONS FONCTIONNELLES =====
@@ -120,9 +120,9 @@ def create_dat_template():
     doc.add_paragraph()
 
     doc.add_heading('4.2 Briques Fonctionnelles', 2)
-    doc.add_paragraph('{% for b in briques_fonctionnelles %}')
+    doc.add_paragraph('{%p for b in briques_fonctionnelles %}')
     doc.add_paragraph('• {{ b.brique }} : {{ b.description }}')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
     doc.add_paragraph()
 
     doc.add_heading('4.3 Échanges de Données', 2)
@@ -136,9 +136,9 @@ def create_dat_template():
         cell.paragraphs[0].runs[0].bold = True
 
     doc.add_paragraph()
-    doc.add_paragraph('{% for e in echanges_donnees %}')
+    doc.add_paragraph('{%p for e in echanges_donnees %}')
     doc.add_paragraph('• {{ e.type_echange }} : {{ e.source }} → {{ e.destination }} ({{ e.frequence }})')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
 
     doc.add_page_break()
 
@@ -161,18 +161,18 @@ def create_dat_template():
     add_rich_para(doc, 'description_interapplicative')
 
     doc.add_heading('5.6 Choix Technologiques', 2)
-    doc.add_paragraph('{% for tech in choix_technologiques %}')
+    doc.add_paragraph('{%p for tech in choix_technologiques %}')
     doc.add_paragraph('• {{ tech.tiers }} : {{ tech.produit }} v{{ tech.version }}')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
 
     p = doc.add_paragraph()
     p.add_run('Données sensibles / DR : ').bold = True
     p.add_run('{{ segmentation_dr }}')
 
     doc.add_heading('5.7 Noms DNS', 2)
-    doc.add_paragraph('{% for dns in dns_nom %}')
+    doc.add_paragraph('{%p for dns in dns_nom %}')
     doc.add_paragraph('• {{ dns.nom_dns }} → {{ dns.machine_associe }}')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
 
     doc.add_page_break()
 
@@ -190,9 +190,9 @@ def create_dat_template():
         cell.paragraphs[0].runs[0].bold = True
 
     doc.add_paragraph()
-    doc.add_paragraph('{% for vm in vms %}')
+    doc.add_paragraph('{%p for vm in vms %}')
     doc.add_paragraph('• {{ vm.nom }} ({{ vm.environnement }}) — {{ vm.role }} | {{ vm.os }} | {{ vm.cpu }} CPU | {{ vm.ram }} Go')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
 
     # ===== 7. CYCLE DE VIE =====
     doc.add_heading('7. Cycle de Vie', 1)
@@ -213,14 +213,14 @@ def create_dat_template():
     doc.add_heading('8. Dépendances', 1)
 
     doc.add_heading('8.1 Dépendances sur Mon Application', 2)
-    doc.add_paragraph('{% for dep in dependances_externes %}')
+    doc.add_paragraph('{%p for dep in dependances_externes %}')
     doc.add_paragraph('• {{ dep.dependance }} : {{ dep.impact }}')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
 
     doc.add_heading('8.2 Mon Application vers Services Externes', 2)
-    doc.add_paragraph('{% for dep in dependance_app_externes %}')
+    doc.add_paragraph('{%p for dep in dependance_app_externes %}')
     doc.add_paragraph('• {{ dep.name_application }} : {{ dep.description_impact }}')
-    doc.add_paragraph('{% endfor %}')
+    doc.add_paragraph('{%p endfor %}')
 
     # ===== 9. CONTRAINTES ET SLA =====
     doc.add_heading('9. Contraintes et Niveau de Service', 1)
