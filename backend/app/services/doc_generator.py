@@ -149,11 +149,11 @@ def strip_html(html: str) -> str:
 
 
 def clean_data_for_word(data: dict) -> dict:
-    """Convert HTML fields to RichText objects for docxtpl rendering."""
+    """Strip HTML from rich text fields → plain text for docxtpl {{ field }} syntax."""
     cleaned = {}
     for key, value in data.items():
         if isinstance(value, str):
-            cleaned[key] = html_to_richtext(value) if key in HTML_FIELDS else value
+            cleaned[key] = strip_html(value) if key in HTML_FIELDS else value
         elif isinstance(value, list):
             cleaned[key] = [
                 clean_data_for_word(item) if isinstance(item, dict) else item

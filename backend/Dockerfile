@@ -14,12 +14,8 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app/ ./app/
-COPY create_template.py .
 
-# Generate default template with {{r field}} rich text syntax
-RUN python create_template.py
-
-# Keep a copy for volume seeding on first start
+# Keep a copy of the original template for volume seeding on first start
 RUN mkdir -p /app/default_template && \
     cp /app/app/templates/dat_template.docx /app/default_template/
 
