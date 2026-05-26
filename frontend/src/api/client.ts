@@ -1,30 +1,10 @@
 import axios from 'axios';
 
-const getBaseUrl = () => {
-  if (typeof window !== 'undefined') {
-    const { hostname, origin } = window.location;
-
-    // 1. Gestion des Sandboxes (ton code actuel)
-    if (hostname.includes('.sandbox.')) {
-      return origin.replace('5173', '8000') + '/api/v1';
-    }
-
-    // 2. Gestion de ta machine Linux (qual-darwin) ou IP distante
-    // Si on n'est pas sur localhost pur, on utilise le hostname actuel avec le port 8000
-    if (hostname !== 'localhost' && hostname !== '127.0.0.1') {
-      return `http://${hostname}:8000/api/v1`;
-    }
-  }
-
-  // 3. Fallback par défaut
-  return 'http://localhost:8000/api/v1';
-};
-
 const api = axios.create({
-  baseURL: getBaseUrl(),
+  baseURL: import.meta.env.VITE_API_URL ?? '/api/v1',
   headers: {
     'Content-Type': 'application/json',
-  }
+  },
 });
 
 // Garde le reste de tes fonctions (downloadDat, previewDat) identiques

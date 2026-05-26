@@ -157,33 +157,49 @@ export function DatStepper() {
   const completionPercentage = Math.round(((currentStep - 1) / (STEPS.length - 1)) * 100);
 
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-[#F6F6F6]">
+      {/* Bande tricolore DSFR */}
+      <div className="flex h-1 w-full">
+        <div className="flex-1 bg-[#002395]" />
+        <div className="flex-1 bg-white" />
+        <div className="flex-1 bg-[#ED2939]" />
+      </div>
+
       {/* Header */}
-      <header className="bg-white border-b-4 border-[#000091]">
+      <header className="bg-white border-b-4 border-[#000091] shadow-sm">
         <div className="max-w-7xl mx-auto px-6 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
-
+              <div className="w-10 h-10 bg-[#000091] flex items-center justify-center flex-shrink-0">
+                <span className="text-white font-bold text-lg leading-none">D</span>
+              </div>
               <div className="flex flex-col justify-center">
-                <h1 className="text-2xl font-bold text-[#000091] leading-tight">
-                  Darwin
+                <h1 className="text-xl font-bold text-[#000091] leading-tight tracking-tight">
+                  DARWIN
                 </h1>
-                <p className="text-sm text-gray-500">
-                  {formData.titre_projet || "Nouveau projet"}
+                <p className="text-xs text-[#666666] font-medium uppercase tracking-wider">
+                  Dossier d'Architecture Technique
                 </p>
               </div>
+              {formData.titre_projet && (
+                <div className="hidden md:flex items-center gap-2 pl-4 border-l-2 border-[#CECECE]">
+                  <span className="text-sm text-[#161616] font-medium">{formData.titre_projet}</span>
+                </div>
+              )}
             </div>
 
             {/* Progress indicator */}
             <div className="hidden md:flex items-center gap-3">
-              <span className="text-sm text-gray-500">Progression :</span>
-              <div className="w-40 h-3 bg-gray-200 rounded-full overflow-hidden border border-gray-300">
+              <span className="text-sm text-[#666666]">
+                Étape <span className="font-bold text-[#000091]">{currentStep}</span> / {STEPS.length}
+              </span>
+              <div className="w-36 h-2 bg-[#EEEEEE] overflow-hidden">
                 <div
-                  className="h-full bg-[#000091] transition-all duration-300 rounded-full"
+                  className="h-full bg-[#000091] transition-all duration-300"
                   style={{ width: `${completionPercentage}%` }}
                 />
               </div>
-              <span className="text-sm font-bold text-[#000091]">{completionPercentage}%</span>
+              <span className="text-sm font-bold text-[#000091] w-10 text-right">{completionPercentage}%</span>
             </div>
           </div>
         </div>
@@ -219,7 +235,7 @@ export function DatStepper() {
 
           {/* Sidebar Navigation - Vertical Steps */}
           <aside className="hidden lg:block w-72 flex-shrink-0">
-            <nav className="bg-[#000091] rounded-xl p-3 sticky top-8 shadow-lg border border-gray-200">
+            <nav className="bg-[#000091] p-3 sticky top-8 shadow-md">
               <h2 className="!text-white font-bold uppercase tracking-wide mb-4 px-2">
                 Section
               </h2>
@@ -237,24 +253,23 @@ export function DatStepper() {
                   let iconClass = "w-5 h-5 flex-shrink-0 transition-colors ";
 
                   if (isActive) {
-                    buttonClass += "!bg-white shadow-md";
-                    circleClass += "!bg-[#000091] !text-white";
-                    titleClass += "!text-[#000091]";
-                    descClass += "!text-[#000091]/80";
-                    iconClass += "!text-[#000091]";
+                    buttonClass += "bg-white shadow-md";
+                    circleClass += "bg-[#000091] text-white";
+                    titleClass += "text-[#000091]";
+                    descClass += "text-[#000091]/70";
+                    iconClass += "text-[#000091]";
                   } else if (isCompleted) {
-                    buttonClass += "!bg-green-600 !hover:bg-green-700 shadow-md";
-                    circleClass += "!bg-white !text-green-700";
-                    titleClass += "!text-white";
-                    descClass += "!text-white/80";
-                    iconClass += "!text-white";
+                    buttonClass += "bg-[#18753C] hover:bg-[#146333] shadow-sm";
+                    circleClass += "bg-white text-[#18753C]";
+                    titleClass += "text-white";
+                    descClass += "text-white/80";
+                    iconClass += "text-white";
                   } else {
-                    // C'est ici que la magie du survol opère : hover:bg-[#000091]
-                    buttonClass += "bg-transparent !hover:bg-white";
-                    circleClass += "!bg-[#000091] !text-white group-hover:!bg-[#000091] group-hover:text-[#000091]";
-                    titleClass += "!text-white group-hover:!text-[#000091]";
-                    descClass += "!text-white/80 group-hover:!text-[#000091]/80";
-                    iconClass += "!text-white group-hover:!text-[#000091]";
+                    buttonClass += "hover:bg-white/15";
+                    circleClass += "bg-white/10 text-white border border-white/30";
+                    titleClass += "text-white/90";
+                    descClass += "text-white/60";
+                    iconClass += "text-white/60";
                   }
 
                   return (
@@ -294,7 +309,7 @@ export function DatStepper() {
             <select
               value={currentStep}
               onChange={(e) => goToStep(Number(e.target.value))}
-              className="w-full px-4 py-3 bg-white border-2 border-[#000091] rounded-lg text-gray-800 font-medium focus:ring-2 focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-3 bg-[#F6F6F6] border-b-2 border-[#000091] text-[#161616] font-medium focus:outline-none"
             >
               {STEPS.map((step) => (
                 <option key={step.id} value={step.id}>
@@ -310,9 +325,9 @@ export function DatStepper() {
               <form onSubmit={(e) => e.preventDefault()}>
 
                 {/* Step Content Card */}
-                <div className="bg-white rounded-lg border border-gray-200 shadow-md overflow-hidden">
+                <div className="bg-white border border-[#E5E5E5] shadow-sm overflow-hidden">
                   {/* Step Header */}
-                  <div className="px-8 py-6 bg-white border-b border-gray-200">
+                  <div className="px-8 py-6 bg-white border-b-2 border-[#000091]">
                     <div className="flex items-center gap-4">
                       {(() => {
                         const StepIcon = STEPS[currentStep - 1]?.icon || Info;
@@ -368,10 +383,10 @@ export function DatStepper() {
                     onClick={prevStep}
                     disabled={currentStep === 1}
                     className={`
-                      inline-flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all border-2
+                      inline-flex items-center gap-2 px-6 py-3 font-medium transition-colors border-2
                       ${currentStep === 1
-                        ? 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
-                        : 'bg-white text-[#000091] border-[#000091] hover:bg-blue-50'
+                        ? 'bg-[#F6F6F6] text-[#929292] border-[#E5E5E5] cursor-not-allowed'
+                        : 'bg-white text-[#000091] border-[#000091] hover:bg-[#F6F6F6] active:bg-[#EEEEEE]'
                       }
                     `}
                   >
@@ -383,7 +398,7 @@ export function DatStepper() {
                     <button
                       type="button"
                       onClick={nextStep}
-                      className="inline-flex items-center gap-2 px-8 py-3 bg-[#000091] text-white rounded-lg font-semibold hover:bg-[#1212FF] transition-all border-2 border-[#000091]"
+                      className="inline-flex items-center gap-2 px-8 py-3 bg-[#000091] text-white font-medium hover:bg-[#1212FF] active:bg-[#2323FF] transition-colors border-2 border-[#000091]"
                     >
                       Suivant
                       <ChevronRight className="w-5 h-5" />
@@ -416,15 +431,15 @@ function FormInput({
   type?: string;
 }) {
   return (
-    <div className="space-y-2">
-      <label className="block text-sm font-semibold text-gray-700">
-        {label} {required && <span className="text-red-500">*</span>}
+    <div className="space-y-1">
+      <label className="block text-sm font-medium text-[#161616]">
+        {label} {required && <span className="text-[#CE0500]">*</span>}
       </label>
       <input
         type={type}
         {...register(name as keyof DatFormValues)}
         placeholder={placeholder}
-        className="w-full px-4 py-3 bg-white border-2 border-gray-300 rounded-lg text-gray-800 placeholder-gray-400 focus:border-[#000091] focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all"
+        className="w-full px-4 py-3 bg-[#F6F6F6] border-b-2 border-[#3A3A3A] text-[#161616] placeholder-[#929292] focus:border-[#000091] focus:bg-white focus:outline-none transition-colors"
       />
     </div>
   );
@@ -470,7 +485,7 @@ function renderStepContent(
               <input
                 type="date"
                 {...register("date")}
-                className="w-full px-4 py-3 bg-white border-2 border-[#000091] rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-200 focus:outline-none transition-all"
+                className="w-full px-4 py-3 bg-[#F6F6F6] border-b-2 border-[#3A3A3A] text-[#161616] focus:border-[#000091] focus:bg-white focus:outline-none transition-colors"
               />
             </div>
             <FormInput
@@ -643,7 +658,7 @@ function renderStepContent(
             </label>
             <select
               {...register("segmentation_dr")}
-              className="w-full md:w-auto px-4 py-3 bg-white border-2 border-[#000091] rounded-lg text-gray-800 focus:ring-2 focus:ring-blue-200 focus:outline-none"
+              className="w-full md:w-auto px-4 py-3 bg-[#F6F6F6] border-b-2 border-[#3A3A3A] text-[#161616] focus:border-[#000091] focus:bg-white focus:outline-none appearance-none"
             >
               <option value="Non">Non - Pas de données sensibles</option>
               <option value="Oui">Oui - Données DR ou sensibles</option>
