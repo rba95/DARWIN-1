@@ -59,7 +59,7 @@ class _RTBuilder(HTMLParser):
             self._color_stack.append(self._css_val(style, 'color'))
             self._bg_stack.append(self._css_val(style, 'background-color'))
         elif tag == 'mark':
-            raw = self._css_val(style, 'background-color') or 'FFEB3B'
+            raw = self._css_val(style, 'background-color') or 'yellow'
             self._bg_stack.append(raw)
         elif tag == 'li':
             self._in_li = True
@@ -115,9 +115,7 @@ class _RTBuilder(HTMLParser):
         if color:
             kwargs['color'] = color
 
-        bg = next((b for b in reversed(self._bg_stack) if b), None)
-        if bg:
-            kwargs['background_color'] = bg
+        # highlight: Word only accepts named colors, skip hex values from Tiptap
 
         self._rt.add(data, **kwargs)
 
