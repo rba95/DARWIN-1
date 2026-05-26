@@ -239,63 +239,55 @@ export function DatStepper() {
               <h2 className="!text-white font-bold uppercase tracking-wide mb-4 px-2">
                 Section
               </h2>
-              <ul className="space-y-2 !text-white">
+              <ul className="space-y-1">
                 {STEPS.map((step) => {
                   const Icon = step.icon;
                   const isActive = currentStep === step.id;
                   const isCompleted = currentStep > step.id;
-
-                  // Définition propre des classes pour éviter les bugs Tailwind
-                  let buttonClass = "w-full flex items-center gap-3 px-3 py-3 rounded-lg text-left transition-all duration-200 group ";
-                  let circleClass = "w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0 transition-colors ";
-                  let titleClass = "font-semibold truncate transition-colors ";
-                  let descClass = "text-xs truncate transition-colors ";
-                  let iconClass = "w-5 h-5 flex-shrink-0 transition-colors ";
-
-                  if (isActive) {
-                    buttonClass += "bg-white shadow-md";
-                    circleClass += "bg-[#000091] text-white";
-                    titleClass += "text-[#000091]";
-                    descClass += "text-[#000091]/70";
-                    iconClass += "text-[#000091]";
-                  } else if (isCompleted) {
-                    buttonClass += "bg-[#18753C] hover:bg-[#146333] shadow-sm";
-                    circleClass += "bg-white text-[#18753C]";
-                    titleClass += "text-white";
-                    descClass += "text-white/80";
-                    iconClass += "text-white";
-                  } else {
-                    buttonClass += "hover:bg-white/15";
-                    circleClass += "bg-white/10 text-white border border-white/30";
-                    titleClass += "text-white/90";
-                    descClass += "text-white/60";
-                    iconClass += "text-white/60";
-                  }
 
                   return (
                     <li key={step.id}>
                       <button
                         type="button"
                         onClick={() => goToStep(step.id)}
-                        className={buttonClass}
+                        style={{
+                          backgroundColor: isActive ? '#FFFFFF' : isCompleted ? '#18753C' : 'transparent',
+                          borderLeft: isActive ? '3px solid #000091' : '3px solid transparent',
+                        }}
+                        className="w-full flex items-center gap-3 px-3 py-3 text-left transition-all hover:opacity-90"
                       >
-                        {/* Cercle avec numéro ou icône Check */}
-                        <div className={circleClass}>
-                          {isCompleted ? <Check className="w-5 h-5" /> : step.id}
+                        {/* Cercle numéro ou check */}
+                        <div
+                          style={{
+                            backgroundColor: isActive ? '#000091' : isCompleted ? 'rgba(255,255,255,0.9)' : 'rgba(255,255,255,0.15)',
+                            color: isActive ? '#FFFFFF' : isCompleted ? '#18753C' : '#FFFFFF',
+                          }}
+                          className="w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold flex-shrink-0"
+                        >
+                          {isCompleted ? <Check className="w-4 h-4" /> : step.id}
                         </div>
 
-                        {/* Textes (Titre et description) */}
+                        {/* Textes */}
                         <div className="flex-1 min-w-0">
-                          <div className={titleClass}>
+                          <div
+                            style={{ color: isActive ? '#000091' : '#FFFFFF' }}
+                            className="font-semibold text-sm truncate"
+                          >
                             {step.name}
                           </div>
-                          <div className={descClass}>
+                          <div
+                            style={{ color: isActive ? '#000091' : 'rgba(255,255,255,0.7)' }}
+                            className="text-xs truncate"
+                          >
                             {step.description}
                           </div>
                         </div>
 
-                        {/* Icône de droite */}
-                        <Icon className={iconClass} />
+                        {/* Icône droite */}
+                        <Icon
+                          style={{ color: isActive ? '#000091' : 'rgba(255,255,255,0.7)' }}
+                          className="w-4 h-4 flex-shrink-0"
+                        />
                       </button>
                     </li>
                   );

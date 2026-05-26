@@ -7,10 +7,14 @@ services:
     restart: unless-stopped
     expose:
       - "8000"
+    environment:
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:-darwin-admin}
+    volumes:
+      - darwin_templates:/app/app/templates
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8000/"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/')"]
+      interval: 15s
+      timeout: 5s
       retries: 3
 
   frontend:
@@ -23,3 +27,6 @@ services:
       - "80:80"
     depends_on:
       - backend
+
+volumes:
+  darwin_templates:
